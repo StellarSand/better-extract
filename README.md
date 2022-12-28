@@ -9,6 +9,7 @@ A better way to extract compressed files directly from terminal.
 - [Supported formats](#supported-formats)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Uninstall](#uninstall)
 - [Contributing](#contributing)
 
 
@@ -73,6 +74,26 @@ extract <filename>
 Example:
 ```
 extract backup.rar
+```
+
+
+
+## Uninstall
+If better-extract has been installed, you can remove it by:
+
+**1. Move into the project directory:**
+```
+cd better-extract
+```
+
+**2. Give executable permissions to the uninstall script:**
+```
+chmod +x uninstall.sh
+```
+
+**3. Run the uninstall script:**
+```
+./uninstall.sh
 ```
 
 
