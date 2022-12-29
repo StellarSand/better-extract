@@ -68,12 +68,29 @@ chmod +x install.sh
 ## Usage
 Using better-extract is pretty simple, once installed.
 ```
-extract <filename>
+extract <file>
 ```
 
-Example:
+Extracting to a specific directory can be done by using the -d or --dir option
+```
+extract <file> -d <directory>
+```
+OR
+```
+extract <file> --dir <directory>
+```
+
+**Example:**
 ```
 extract backup.rar
+```
+
+```
+extract backup.rar -d /home/user/directory
+```
+
+```
+extract backup.rar --dir /home/user/directory
 ```
 
 
