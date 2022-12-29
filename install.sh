@@ -23,4 +23,8 @@ echo -e "Installing ..."
 cp extract.sh /usr/bin/extract
 successFail
 
+echo -e "Fixing permissions ..."
+chmod +x /usr/bin//extract
+successFail
+
 exit 0

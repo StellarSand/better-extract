@@ -18,11 +18,13 @@ else
 fi
 }
 
-echo -e "Uninstalling ..."
 if [ -f /usr/bin/extract ]
 then
+  echo -e "Uninstalling ..."
   rm /usr/bin/extract
   successFail
+else
+  echo -e "File doesn't exist"
 fi
 
 exit 0
