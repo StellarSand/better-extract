@@ -12,7 +12,6 @@ successFail() {
 if [ $? -eq 0 ]
 then
 	echo -e "\nDone.\n"
-	extract -h
 else
 	echo -e "\nSome error occurred performing the task.\n"
 	exit 1
@@ -24,7 +23,9 @@ cp extract.sh /usr/bin/extract
 successFail
 
 echo -e "Fixing permissions ..."
-chmod +x /usr/bin//extract
+chmod +x /usr/bin/extract
 successFail
+
+extract -h
 
 exit 0
