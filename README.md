@@ -15,9 +15,13 @@ A better way to extract compressed files directly from terminal.
 
 
 ## Why?
-There are a lot of compression standards and file formats such as .zip, .7z, .rar, .tar.gz, etc and extracting the contents of compressed files requires different commands, if done via terminal.
+Compressing and extracting files is a common task for many users, and there are numerous file formats that can be used for this purpose, such as .zip, .7z, .rar, .tar.gz, and so on. Extracting the contents of compressed files often requires using different commands, depending on the file format, which can be inconvenient and time-consuming.
 
-**better-extract** will save you a lot of time, especially if you have to deal with compressed files of many different formats. Using this you only need just one command to extract compressed file of different formats.
+This is where better-extract comes in. It is a tool that allows you to extract compressed files of various formats using just one command. No need to remember the syntax for different commands or to spend time searching online for the right one. Simply use the extract command, specify the file name and better-extract will handle the rest.
+
+In addition, better-extract also allows you to extract the contents of a compressed file to a specific directory, rather than the current one. This can be particularly useful if you want to extract the contents to a specific location or if you don't want to clutter the current directory with extracted files.
+
+Overall, better-extract is a simple but powerful tool that can save you time and effort when dealing with extracting compressed files.
 
 
 
