@@ -45,87 +45,76 @@ extract() {
   then
     # If extract dir provided, extract to that dir
     # else extract to same dir as the file
-    if [ -z "$Extract_Dir" ]
+    if [ -z "$extract_dir" ]
     then
-      Extract_Dir=$(dirname "$1")
+      extract_dir=$(dirname "$1")
     fi
 
     case $1 in
 
       *.[zZ][iI][pP])
         hasCommand unzip
-        unzip "$1" -d "$Extract_Dir"
+        unzip "$1" -d "$extract_dir"
         successFail
       ;;
 
       *.[rR][aA][rR] | *.7[zZ] | *.[iI][sS][oO])
         hasCommand 7z
-        7z x "$1" -o "$Extract_Dir"
+        7z x "$1" -o "$extract_dir"
         successFail
       ;;
 
       *.tar)
         hasCommand tar
-        tar -xvf "$1" -C "${Extract_Dir}"
+        tar -xvf "$1" -C "$extract_dir"
         successFail
       ;;
 
       *.tar.bz2 | *.tbz2)
         hasCommand tar
-        tar -xjvf "$1" -C "${Extract_Dir}"
+        tar -xjvf "$1" -C "$extract_dir"
         successFail
       ;;
 
       *.tar.gz | *.tgz)
         hasCommand tar
-        tar -xzvf "$1" -C "${Extract_Dir}"
+        tar -xzvf "$1" -C "$extract_dir"
         successFail
       ;;
 
       *.tar.xz | *.txz)
         hasCommand tar
-        tar -xJvf "$1" -C "${Extract_Dir}"
+        tar -xJvf "$1" -C "$extract_dir"
         successFail
       ;;
 
       *.xz)
         hasCommand xz
-        xz -dv "$1" -C "${Extract_Dir}"
+        xz -dv "$1" -C "$extract_dir"
         successFail
       ;;
 
       *.bz2)
         hasCommand bunzip2
-        bzip2 -dk "$1" -c > "${Extract_Dir}"
+        bzip2 -dk "$1" -c > "$extract_dir"
         successFail
       ;;
 
       *.gz)
         hasCommand gzip
-        gzip -dc "$1" > "${Extract_Dir}"
+        gzip -dc "$1" > "$extract_dir"
         successFail
       ;;
 
       *.[zZ])
         hasCommand uncompress
-        uncompress -k "$1" -o "${Extract_Dir}"
+        uncompress -k "$1" -o "$extract_dir"
         successFail
-      ;;
-
-      *.[dD][mM][gG])
-        hasCommand hdiutil
-        hdiutil mount "$1"
-        successFail
-        if [ -n "$Extract_Dir" ]
-        then
-          cp -R /Volumes/"${1%.dmg}" "$Extract_Dir"
-          hdiutil unmount /Volumes/"${1%.dmg}"
-        fi
       ;;
 
       *.pax)
         hasCommand pax
-        pax -rvf "$1" | sed "s/^/$Extract_Dir//g" #Replace beginning of filename with dir
+        pax -rvf "$1" | sed "s/^/$extract_dir//g" #Replace beginning of filename with dir
         successFail
       ;;
 
@@ -141,7 +130,7 @@ extract() {
 }
 
 # Initialize variables
-Extract_Dir=""
+extract_dir=""
 
 # Process options
 while [ $# -gt 0 ]
@@ -154,7 +143,7 @@ do
   ;;
 
   -d | --dir)
-    Extract_Dir="$2"
+    extract_dir="$2"
     shift 2
   ;;
 
@@ -175,9 +164,9 @@ done
 
 if [ -n "$File" ]
 then
-  if [ -n "$Extract_Dir" ] && ! [ -d "$Extract_Dir" ]
+  if [ -n "$extract_dir" ] && ! [ -d "$extract_dir" ]
     then
-        echo "Directory $Extract_Dir does not exist."
+        echo "Directory $extract_dir does not exist."
         echo "Please enter a valid directory path."
         exit 1
       fi
