@@ -29,13 +29,13 @@ extract <file> -d <directory>
 A better way to extract compressed files in terminal.
 
 Options:
-  -h, --help      Show this help message
-  -d, --dir       Extract to a specified directory
+  -h, --help            Show this help message
+  -d, --directory       Extract to a specified directory
 
 Examples:
 extract backup.zip
 extract backup.zip -d /home/user/Downloads
-extract backup.zip --dir /home/user/Downloads
+extract backup.zip --directory /home/user/Downloads
 
 EOF
 }
