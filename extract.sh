@@ -3,7 +3,7 @@
 hasCommand() {
 if ! [ -x "$(command -v "$1")" ]
 then
-  echo -e "\n$1 package does not exist. Please install it first and try again.\n"
+  echo -e "\n$1 package does not exist. Please install it first and try again."
   echo -e "Exiting script ...\n"
   exit 1
 fi
@@ -24,9 +24,10 @@ cat << EOF
 
 Usage:
 extract <file>
+extract <file1> <file2> <file3>
 extract <file> -d <directory>
 
-A better way to extract compressed files in terminal.
+A better way to extract compressed extract_files in terminal.
 
 Options:
   -h, --help            Show this help message
@@ -34,15 +35,17 @@ Options:
 
 Examples:
 extract backup.zip
+extract backup1.zip backup2.zip backup3.zip
 extract backup.zip -d /home/user/Downloads
-extract backup.zip --directory /home/user/Downloads
+
+NOTE:
+Since extracting multiple files is done in parallel,
+it might use a lot of system resources if too many extract_files are processed.
 
 EOF
 }
 
 extract() {
-  if [ -f "$1" ]
-  then
     # If extract dir provided, extract to that dir
     # else extract to same dir as the file
     if [ -z "$extract_dir" ]
@@ -55,67 +58,56 @@ extract() {
       *.[zZ][iI][pP])
         hasCommand unzip
         unzip "$1" -d "$extract_dir"
-        successFail
       ;;
 
       *.[rR][aA][rR] | *.7[zZ] | *.[iI][sS][oO])
         hasCommand 7z
         7z x "$1" -o "$extract_dir"
-        successFail
       ;;
 
       *.tar)
         hasCommand tar
         tar -xvf "$1" -C "$extract_dir"
-        successFail
       ;;
 
       *.tar.bz2 | *.tbz2)
         hasCommand tar
         tar -xjvf "$1" -C "$extract_dir"
-        successFail
       ;;
 
       *.tar.gz | *.tgz)
         hasCommand tar
         tar -xzvf "$1" -C "$extract_dir"
-        successFail
       ;;
 
       *.tar.xz | *.txz)
         hasCommand tar
         tar -xJvf "$1" -C "$extract_dir"
-        successFail
       ;;
 
       *.xz)
         hasCommand xz
         xz -dv "$1" -C "$extract_dir"
-        successFail
       ;;
 
       *.bz2)
         hasCommand bunzip2
         bzip2 -dk "$1" -c > "$extract_dir"
-        successFail
       ;;
 
       *.gz)
         hasCommand gzip
         gzip -dc "$1" > "$extract_dir"
-        successFail
       ;;
 
       *.[zZ])
         hasCommand uncompress
         uncompress -k "$1" -o "$extract_dir"
-        successFail
       ;;
 
       *.pax)
         hasCommand pax
         pax -rvf "$1" | sed "s/^/$extract_dir//g" #Replace beginning of filename with dir
-        successFail
       ;;
 
       *)
@@ -124,13 +116,19 @@ extract() {
 
     esac
 
-  else
-    echo "$1 does not exist"
-  fi
+    successFail
 }
 
 # Initialize variables
 extract_dir=""
+extract_files=()
+
+# If no options provided, show usage
+if [ $# -eq 0 ]
+then
+  usage
+  exit 0
+fi
 
 # Process options
 while [ $# -gt 0 ]
@@ -148,33 +146,44 @@ do
   ;;
 
   -*)
-  	echo -e "\nInvalid option: $1\n"
+  	echo -e "\nInvalid option: $1"
   	echo -e "Try 'extract -h' for more information.\n"
   	exit 1
   ;;
 
   *)
-    # Assume anything else is the filename
-    File="$1"
-    shift
+    break
   ;;
 
   esac
 done
 
-if [ -n "$File" ]
-then
-  if [ -n "$extract_dir" ] && ! [ -d "$extract_dir" ]
-    then
-        echo "Directory $extract_dir does not exist."
-        echo "Please enter a valid directory path."
-        exit 1
-      fi
+# Check if provided argument is directory or file
+for arg in "$@"
+do
+  if [ "$arg" == "-d" ] || [ "$arg" == "--directory" ]
+  then
+    extract_dir="$2"
+  elif [ -f "$arg" ]
+  then
+    extract_files+=("$arg")
+  fi
+  shift
+done
 
-      extract "$File"
-else
-  # No file name provided, show usage
-  usage
+# Check if directory exists
+if [ -n "$extract_dir" ] && [ ! -d "$extract_dir" ]
+  then
+    echo -e "\nDirectory $extract_dir does not exist."
+    echo -e "Exiting script ...\n"
+    exit 1
 fi
+
+# For each file, perform extraction
+for file in "${extract_files[@]}"
+do
+extract "$file" "$extract_dir" & # Spawns new process for every file
+done
+wait # Wait till all background processes finish before exiting script
 
 exit 0

@@ -66,14 +66,13 @@ Using better-extract is pretty simple, once installed.
 ```
 extract <file>
 ```
+```
+extract <file1> <file2> <file3>
+```
 
 Extracting to a specific directory can be done by using the `-d` or `--directory` option
 ```
 extract <file> -d <directory>
-```
-OR
-```
-extract <file> --directory <directory>
 ```
 
 **Examples:**
@@ -82,8 +81,16 @@ extract backup.rar
 ```
 
 ```
-extract backup.rar -d /home/user/directory
+extract backup1.rar backup2.rar backup3.rar
 ```
+
+```
+extract backup.rar -d /home/user/Desktop
+```
+
+**NOTE:** Since extracting multiple files is done in parallel, it might use a lot of system resources if too many files are processed.
+
+
 
 
 
