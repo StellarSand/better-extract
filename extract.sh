@@ -123,6 +123,13 @@ extract() {
 extract_dir=""
 extract_files=()
 
+# If -d or --directory option provided, set extract_dir
+if [ "$1" == "-d" ] || [ "$1" == "--directory" ]
+then
+  extract_dir="$2"
+  shift 2
+fi
+
 # If no options provided, show usage
 if [ $# -eq 0 ]
 then
@@ -152,22 +159,17 @@ do
   ;;
 
   *)
-    break
+    if [ -f "$1" ]
+    then
+      extract_files+=("$1")
+    else
+      echo -e "\nFile $1 does not exist."
+      echo -e "Exiting script ...\n"
+      exit 1
+    fi
   ;;
 
   esac
-done
-
-# Check if provided argument is directory or file
-for arg in "$@"
-do
-  if [ "$arg" == "-d" ] || [ "$arg" == "--directory" ]
-  then
-    extract_dir="$2"
-  elif [ -f "$arg" ]
-  then
-    extract_files+=("$arg")
-  fi
   shift
 done
 
