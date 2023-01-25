@@ -40,7 +40,7 @@ extract backup.zip -d /home/user/Downloads
 
 NOTE:
 Since extracting multiple files is done in parallel,
-it might use a lot of system resources if too many extract_files are processed.
+it might use a lot of system resources if too many files are processed.
 
 EOF
 }
