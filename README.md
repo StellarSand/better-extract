@@ -41,7 +41,7 @@ This is where better-extract comes in. It is a simple but powerful tool that can
 ## Installation
 **1. Clone this repo:**
 ```
-git clone https://github.com/the-weird-aquarian/better-extract.git
+git clone https://github.com/StellarSand/better-extract.git
 ```
 
 **2. Move into the project directory:**
@@ -99,7 +99,7 @@ If better-extract has been installed, you can remove it by:
 
 **1. Clone this repo (if not done already):**
 ```
-git clone https://github.com/the-weird-aquarian/better-extract.git
+git clone https://github.com/StellarSand/better-extract.git
 ```
 
 **2. Move into the project directory:**
@@ -120,4 +120,4 @@ chmod +x uninstall.sh
 
 
 ## Contributing
-Pull requests can be submitted [here](https://github.com/the-weird-aquarian/better-extract/pulls). Any contribution to the project will be highly appreciated.
+Pull requests can be submitted [here](https://github.com/StellarSand/better-extract/pulls). Any contribution to the project will be highly appreciated.
